@@ -48,10 +48,13 @@ function createRequester(url) {
 
 function main() {
   createRequester('/ping');
-  createRequester('/async-write-file');
-  createRequester('/async-loop');
   createRequester('/sync-loop');
-  createRequester('/empty-temp-dir');
+  createRequester('/async-loop');
+  createRequester('/async-write-file');
+  createRequester('/sync-loop-fork');
+  createRequester('/sync-loop-worker');
+  // Only parallelizes in curl!
+  // createRequester('/sync-loop-cluster');
 }
 
 main();
