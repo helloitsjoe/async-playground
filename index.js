@@ -18,33 +18,40 @@ function fetchAll(endpoint, concurrentRequests) {
   return Promise.all(reqs);
 }
 
+function createRequester(url) {
+  const root = document.getElementById('root');
+  const button = document.createElement('button');
+  const output = document.createElement('div');
+  const input = document.createElement('input');
+  const wrapper = document.createElement('div');
+
+  button.textContent = url;
+  input.placeholder = '1';
+  output.textContent = 'Click to request';
+
+  wrapper.appendChild(input);
+  wrapper.appendChild(button);
+  wrapper.appendChild(output);
+
+  root.appendChild(wrapper);
+
+  button.onclick = () => {
+    output.textContent = 'Fetching...';
+    const start = Date.now();
+    fetchAll(url, Number(input.value) || 1).then((res) => {
+      console.log('res', res);
+      const elapsed = Date.now() - start;
+      output.textContent = `Elapsed: ${elapsed}`;
+    });
+  };
+}
+
 function main() {
-  const syncLoopButton = document.getElementById('sync-loop-req');
-  const asyncLoopButton = document.getElementById('async-loop-req');
-  const syncLoopRes = document.getElementById('sync-loop-res');
-  const asyncLoopRes = document.getElementById('async-loop-res');
-  const syncLoopInput = document.getElementById('sync-loop-input');
-  const asyncLoopInput = document.getElementById('async-loop-input');
-
-  syncLoopButton.onclick = () => {
-    syncLoopRes.textContent = 'Fetching...';
-    const start = Date.now();
-    fetchAll('/sync-loop', Number(syncLoopInput.value) || 1).then((res) => {
-      console.log('res', res);
-      const elapsed = Date.now() - start;
-      syncLoopRes.textContent = `Elapsed: ${elapsed}`;
-    });
-  };
-
-  asyncLoopButton.onclick = () => {
-    asyncLoopRes.textContent = 'Fetching...';
-    const start = Date.now();
-    fetchAll('/async-loop', Number(asyncLoopInput.value) || 1).then((res) => {
-      console.log('res', res);
-      const elapsed = Date.now() - start;
-      asyncLoopRes.textContent = `Elapsed: ${elapsed}`;
-    });
-  };
+  createRequester('/ping');
+  createRequester('/async-write-file');
+  createRequester('/async-loop');
+  createRequester('/sync-loop');
+  createRequester('/empty-temp-dir');
 }
 
 main();
