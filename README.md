@@ -1,30 +1,32 @@
-# async-playground
+# Let's Block the Event Loop!
 
 ## Here's what we're doing
 
-Setting up a Node server that compares different types of tasks, some synchronous some async. Some CPU-bound, some not. Then we're going to do it in Go.
+Setting up a Node server that compares blocking vs non-blocking tasks.
 
 ## Here's why
 
-I want to show you how sync tasks compare to async and why you don't want to
-block the event loop. I also want to show you that it's not always as simple
-as just wrapping in a Promise. I think I know how this all works but sometimes
-I like to build little things like this to make sure I'm not missing anything.
-I don't know as much about Golang, and I want to see how the concurrency model
-compares for CPU-bound async tasks.
+I want to show how Node handles synchronous tasks compared to async and why you
+don't want to block the event loop. I also want to show that it's not always as
+simple as just wrapping in a Promise. I also _think_ I have a good mental model
+for all this, but I also often expose a blind spot or two when I build things
+like this!
 
 ## Tasks
 
 - [ ] Set up an endpoint
-  - [ ] Long running CPU task (O(n^2) for loop)
 - [ ] Set up a fetch call with perf timers
+- [ ] Set up an endpoint with fs.writeFileSync
 - [ ] Hit endpoint once at a time to see what happens
 - [ ] Hit endpoint 2-3 times at once to see what happens
-  - [ ] Can I get logs to see what thread each is on, or do I have to manually set up workers?
 - [ ] Hit endpoint many times at once to see what happens
-- [ ] Set up another endpoint
-  - [ ] Wrap CPU task in a Promise
-- [ ] Do it again
-- [ ] Do both endpoints again with fs.writeFile + sync to see what happens
-- [ ] Do it again with non-CPU-bound tasks
-- [ ] Now do it with go/goroutines
+- [ ] Set up an endpoint with fs.writeFile promise
+- [ ] Set up another endpoint: Long running CPU task (O(n^2) for loop)
+- [ ] Wrap CPU task in a Promise (does nothing)
+- [ ] Create a child.fork endpoint
+- [ ] Create a Worker endpoint
+- [ ] Explain a little about process vs thread (lighter weight, share memory space)
+- [ ] Show cluster app
+- [ ] Do it again with non-CPU-bound tasks (Is there even a good way to show bottleneck here?)
+
+## TODO: Do this in Go to see how it compares
