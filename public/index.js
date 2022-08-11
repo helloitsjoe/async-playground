@@ -26,6 +26,8 @@ function createRequester(url) {
   button.textContent = url;
   input.placeholder = '1';
   output.textContent = 'Click to request';
+  output.classList.add('output');
+  wrapper.classList.add('container');
 
   wrapper.appendChild(input);
   wrapper.appendChild(button);
