@@ -1,5 +1,5 @@
 if (process.env.CLUSTER) {
-  require('./cluster-app');
+  require('./app-cluster');
 } else {
   require('./app');
 }

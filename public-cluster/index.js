@@ -47,14 +47,7 @@ function createRequester(url) {
 }
 
 function main() {
-  createRequester('/ping');
-  createRequester('/sync-loop');
-  createRequester('/async-loop');
-  createRequester('/async-write-file');
-  createRequester('/sync-loop-fork');
-  createRequester('/sync-loop-worker');
-  // Only parallelizes in curl!
-  // createRequester('/sync-loop-cluster');
+  createRequester('/sync-loop-cluster');
 }
 
 main();

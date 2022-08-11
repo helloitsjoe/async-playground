@@ -1,6 +1,5 @@
 const { Worker } = require('worker_threads');
 const { fork } = require('child_process');
-const path = require('path');
 const fs = require('fs');
 const express = require('express');
 const { syncLoop, startPerf, wrap } = require('./utils');
@@ -9,18 +8,13 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-app.use(express.static(path.join(process.cwd())));
-
-app.get('/ping', (req, res) => {
-  res.json({ message: 'pong' });
-});
+app.use(express.static('public'));
 
 // Ping to sync-loop while it's running will wait until the current loop ends
 app.get('/sync-loop', (req, res) => {
-  const start = Date.now();
-  console.log('sync start', new Date());
+  const perf = startPerf(req.url);
   const count = syncLoop();
-  console.log(`Took ${Date.now() - start} ms`);
+  perf.stop();
   res.json({ count });
 });
 
@@ -36,10 +30,12 @@ app.get('/async-loop', (req, res) => {
 // Blocks until a single request finishes
 app.get('/sync-write-file', (req, res) => {
   const perf = startPerf(req.url);
-  fs.writeFile(`/tmp/${Date.now()}.json`, 'hello'.repeat(90000000), (count) => {
-    perf.stop();
-    res.json({ count });
-  });
+  const count = fs.writeFileSync(
+    `/tmp/${Date.now()}.json`,
+    'hello'.repeat(90000000)
+  );
+  perf.stop();
+  res.json({ count });
 });
 
 // This is non-blocking. We still see a few hundred ms lag sometimes.

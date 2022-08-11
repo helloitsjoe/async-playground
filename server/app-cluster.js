@@ -1,6 +1,6 @@
 const express = require('express');
 const cluster = require('cluster');
-const cors = require('cors');
+const path = require('path');
 const { cpus } = require('os');
 const { syncLoop, startPerf } = require('./utils');
 
@@ -22,17 +22,13 @@ if (cluster.isMaster) {
 } else {
   const app = express();
 
-  app.use(cors());
-
-  app.get('/ping', (req, res) => {
-    res.json({ message: 'pong' });
-  });
+  app.use(express.static(path.join('public-cluster')));
 
   // Unfortunately can't make multiple concurrent requests to this endpoint
   // from the same browser, but multiple concurrent curls will work
   app.get('/sync-loop-cluster', (req, res) => {
     console.log(`Processing on process ${process.pid}`);
-    const perf = startPerf();
+    const perf = startPerf(req.url);
     const count = syncLoop();
     perf.stop();
     res.json({ count });
