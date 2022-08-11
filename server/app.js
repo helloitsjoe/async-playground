@@ -9,6 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.static('public'));
+app.use(express.static('public-shared'));
 
 // Ping to sync-loop while it's running will wait until the current loop ends
 app.get('/sync-loop', (req, res) => {

@@ -22,7 +22,8 @@ if (cluster.isMaster) {
 } else {
   const app = express();
 
-  app.use(express.static(path.join('public-cluster')));
+  app.use(express.static('public-cluster'));
+  app.use(express.static('public-shared'));
 
   // Unfortunately can't make multiple concurrent requests to this endpoint
   // from the same browser, but multiple concurrent curls will work

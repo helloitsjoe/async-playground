@@ -16,7 +16,7 @@ function fetchAll(endpoint, concurrentRequests) {
   return Promise.all(reqs);
 }
 
-function createRequester(url) {
+export function createRequester(url) {
   const root = document.getElementById('root');
   const button = document.createElement('button');
   const output = document.createElement('div');
@@ -49,14 +49,3 @@ function createRequester(url) {
       });
   };
 }
-
-function main() {
-  createRequester('/sync-loop');
-  createRequester('/async-loop');
-  createRequester('/sync-write-file');
-  createRequester('/async-write-file');
-  createRequester('/sync-loop-fork');
-  createRequester('/sync-loop-worker');
-}
-
-main();

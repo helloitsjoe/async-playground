@@ -1,8 +1,15 @@
 const startPerf = (id) => {
   const start = Date.now();
-  console.log(`${id} start:`, new Date());
-  const stop = () => console.log(`Took ${id} ${Date.now() - start} ms`);
-  return { stop };
+  console.log(
+    `${id} start:`,
+    new Date().toISOString().replace('Z', '').split('T')[1]
+  );
+
+  return {
+    stop() {
+      console.log(`Took ${id} ${Date.now() - start} ms`);
+    },
+  };
 };
 
 const wrap = (fn) =>
