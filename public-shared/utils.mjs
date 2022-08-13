@@ -21,22 +21,25 @@ export function createRequester(url) {
   const button = document.createElement('button');
   const output = document.createElement('div');
   const input = document.createElement('input');
-  const wrapper = document.createElement('form');
+  const form = document.createElement('form');
 
   button.textContent = url;
   button.type = 'submit';
   input.placeholder = '1';
   output.textContent = 'Click to request';
   output.classList.add('output');
-  wrapper.classList.add('container');
 
-  wrapper.appendChild(input);
-  wrapper.appendChild(button);
-  wrapper.appendChild(output);
+  if (url.includes('sync')) {
+    button.classList.add(url.includes('async') ? 'async' : 'sync');
+  }
 
-  root.appendChild(wrapper);
+  form.appendChild(input);
+  form.appendChild(button);
+  form.appendChild(output);
 
-  wrapper.onsubmit = (e) => {
+  root.appendChild(form);
+
+  form.onsubmit = (e) => {
     e.preventDefault();
     output.textContent = 'Fetching...';
     const start = Date.now();

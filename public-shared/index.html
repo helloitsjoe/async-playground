@@ -8,12 +8,18 @@
         padding: 0;
         margin: 0;
         font-family: Arial, sans-serif;
+        box-sizing: border-box;
       }
 
       input,
       button {
         border: 1px solid white;
         padding: 0.5em;
+      }
+
+      input {
+        width: 3em;
+        border-right: none;
       }
 
       button {
@@ -29,13 +35,30 @@
         color: white;
       }
 
-      .output {
-        margin: 1em;
+      .sync {
+        background-color: firebrick;
       }
 
-      .container {
+      .sync:hover {
+        background-color: red;
+      }
+
+      .async {
+        background-color: green;
+      }
+
+      .async:hover {
+        background-color: limegreen;
+      }
+
+      form {
         width: 80%;
         margin: 2em auto;
+        text-align: center;
+      }
+
+      .output {
+        margin: 1em;
       }
     </style>
   </head>
