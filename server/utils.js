@@ -5,10 +5,8 @@ const startPerf = (id) => {
     new Date().toISOString().replace('Z', '').split('T')[1]
   );
 
-  return {
-    stop() {
-      console.log(`Took ${id} ${Date.now() - start} ms`);
-    },
+  return () => {
+    console.log(`Took ${id} ${Date.now() - start} ms`);
   };
 };
 

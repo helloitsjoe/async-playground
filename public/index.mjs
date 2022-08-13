@@ -4,7 +4,7 @@ function main() {
   createRequester('/sync-write');
   createRequester('/async-write');
   createRequester('/sync-loop');
-  createRequester('/async-loop');
+  createRequester('/promise-loop');
   createRequester('/forked');
   createRequester('/worker');
   createRequester('/ping');

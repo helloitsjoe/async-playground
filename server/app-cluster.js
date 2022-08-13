@@ -26,16 +26,16 @@ if (cluster.isMaster) {
   app.use(express.static('public-shared'));
 
   app.get('/ping', (req, res) => {
-    const perf = startPerf(req.url);
-    perf.stop();
+    const stopPerf = startPerf(req.url);
+    stopPerf();
     res.status(200).json({ message: 'pong' });
   });
 
   app.get('/cluster', (req, res) => {
     console.log(`Processing on process ${process.pid}`);
-    const perf = startPerf(req.url);
+    const stopPerf = startPerf(req.url);
     const count = syncLoop(1_000_000_000);
-    perf.stop();
+    stopPerf();
     res.json({ count });
   });
 

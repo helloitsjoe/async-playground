@@ -13,43 +13,43 @@ app.use(express.static('public'));
 app.use(express.static('public-shared'));
 
 app.get('/ping', (req, res) => {
-  const perf = startPerf(req.url);
-  perf.stop();
+  const stopPerf = startPerf(req.url);
+  stopPerf();
   res.status(200).json({ message: 'pong' });
 });
 
 // Blocks until a single request finishes
 app.get('/sync-write', (req, res) => {
-  const perf = startPerf(req.url);
+  const stopPerf = startPerf(req.url);
   fs.writeFileSync(`/tmp/${Date.now()}.json`, 'hello'.repeat(50_000_000));
-  perf.stop();
+  stopPerf();
   res.json({ message: 'written' });
 });
 
 // This is non-blocking. We still see a few hundred ms lag sometimes.
 app.get('/async-write', async (req, res) => {
-  const perf = startPerf(req.url);
+  const stopPerf = startPerf(req.url);
   await fsPromises.writeFile(
     `/tmp/${Date.now()}.json`,
     'hello'.repeat(50_000_000)
   );
-  perf.stop();
+  stopPerf();
   res.json({ message: 'written' });
 });
 
 // Ping to sync-loop while it's running will wait until the current loop ends
 app.get('/sync-loop', (req, res) => {
-  const perf = startPerf(req.url);
+  const stopPerf = startPerf(req.url);
   const count = syncLoop(1_000_000_000);
-  perf.stop();
+  stopPerf();
   res.json({ count });
 });
 
 // Wrapped in a promise, but behavior is the same as sync-loop!
-app.get('/async-loop', async (req, res) => {
-  const perf = startPerf(req.url);
+app.get('/promise-loop', async (req, res) => {
+  const stopPerf = startPerf(req.url);
   const count = await syncLoop(1_000_000_000);
-  perf.stop();
+  stopPerf();
   res.json({ count });
 });
 
@@ -57,12 +57,12 @@ app.get('/async-loop', async (req, res) => {
 // sync work to a child process, which posts a message when done
 app.get('/forked', (req, res) => {
   // Creates a new process
-  const perf = startPerf(req.url);
+  const stopPerf = startPerf(req.url);
   const child = fork('./server/sync-fork.js');
   // send() method requires an argument even if it's unused by the child
   child.send(1_000_000_000);
   child.on('message', (count) => {
-    perf.stop();
+    stopPerf();
     res.json({ count });
   });
 });
@@ -74,12 +74,12 @@ app.get('/forked', (req, res) => {
 app.get('/worker', (req, res) => {
   // This could be further optimized if the heavy synchronous work can be
   // broken into smaller pieces and parallelized with multiple workers.
-  const perf = startPerf(req.url);
+  const stopPerf = startPerf(req.url);
   const worker = new Worker('./server/sync-worker.js', {
     workerData: 1_000_000_000,
   });
   worker.on('message', (message) => {
-    perf.stop();
+    stopPerf();
     res.send({ message });
   });
 });
