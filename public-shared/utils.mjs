@@ -1,21 +1,3 @@
-const createPromise = (endpoint) =>
-  fetch(`http://localhost:3000${endpoint}`).then((res) => {
-    if (!res.ok) {
-      throw new Error(`${res.status}`);
-    }
-    return res.json();
-  });
-
-function fetchAll(endpoint, concurrentRequests) {
-  // Need to fill and then map otherwise promises all have the same reference
-  // and resolve at the same time
-  console.log('concurrentRequests', concurrentRequests);
-  const reqs = Array(concurrentRequests)
-    .fill(null)
-    .map(() => createPromise(endpoint));
-  return Promise.all(reqs);
-}
-
 export function createRequester(url) {
   const root = document.getElementById('root');
   const button = document.createElement('button');
@@ -53,4 +35,20 @@ export function createRequester(url) {
         output.textContent = `Error: ${err.message}`;
       });
   };
+}
+
+function fetchAll(endpoint, concurrentRequests) {
+  const reqs = Array(concurrentRequests)
+    .fill(null)
+    .map(() => createPromise(endpoint));
+  return Promise.all(reqs);
+}
+
+function createPromise(endpoint) {
+  return fetch(endpoint).then((res) => {
+    if (!res.ok) {
+      throw new Error(`${res.status}`);
+    }
+    return res.json();
+  });
 }
