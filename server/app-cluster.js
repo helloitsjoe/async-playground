@@ -6,9 +6,9 @@ const { syncLoop, startPerf } = require('./utils');
 
 const PORT = process.env.PORT || 3000;
 
-// This is a good option if you have limited infra, but if you're using
-// something like kubernetes you're probably better off managing resources at
-// the infra layer rather than here in Node.
+// If you're using something like kubernetes to manage services, using
+// multiple processes (or threads) will give you the ability to scale faster
+// while waiting for the autoscaler to spin up new replicas.
 if (cluster.isMaster) {
   console.log(`Master process is ${process.pid}`);
   for (let i = 0; i < cpus().length; i++) {
@@ -25,12 +25,16 @@ if (cluster.isMaster) {
   app.use(express.static('public-cluster'));
   app.use(express.static('public-shared'));
 
-  // Unfortunately can't make multiple concurrent requests to this endpoint
-  // from the same browser, but multiple concurrent curls will work
-  app.get('/sync-loop-cluster', (req, res) => {
+  app.get('/ping', (req, res) => {
+    const perf = startPerf(req.url);
+    perf.stop();
+    res.status(200).json({ message: 'pong' });
+  });
+
+  app.get('/cluster', (req, res) => {
     console.log(`Processing on process ${process.pid}`);
     const perf = startPerf(req.url);
-    const count = syncLoop();
+    const count = syncLoop(1_000_000_000);
     perf.stop();
     res.json({ count });
   });

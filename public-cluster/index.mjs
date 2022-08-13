@@ -1,7 +1,8 @@
 import { createRequester } from './utils.mjs';
 
 function main() {
-  createRequester('/sync-loop-cluster');
+  createRequester('/cluster');
+  createRequester('/ping');
 }
 
 main();

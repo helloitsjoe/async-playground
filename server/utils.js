@@ -12,18 +12,10 @@ const startPerf = (id) => {
   };
 };
 
-const wrap = (fn) =>
-  new Promise((resolve) => {
-    const result = fn();
-    resolve(result);
-  });
-
-const syncLoop = () => {
+const syncLoop = (num = 100) => {
   let count = 0;
-  for (let i = 0; i < 30_000; i++) {
-    for (let j = 0; j < 100_000; j++) {
-      count++;
-    }
+  for (let i = 0; i < num; i++) {
+    count++;
   }
   return count;
 };
@@ -31,5 +23,4 @@ const syncLoop = () => {
 module.exports = {
   startPerf,
   syncLoop,
-  wrap,
 };
