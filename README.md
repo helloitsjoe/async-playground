@@ -1,16 +1,23 @@
 # Let's Block the Event Loop!
 
-## Here's what we're doing
+## Why?
 
-Setting up a Node server that compares blocking vs non-blocking tasks.
+- Important when running a server not to block
+- Blocking the event loop will block all endpoints
+- Mostly important with CPU-bound tasks
+- Best case: users will see latency
+- Worst case: server will timeout/crash
 
-## Here's why
+## What we'll be doing
 
-I want to show how Node handles synchronous tasks compared to async and why you
-don't want to block the event loop. I also want to show that it's not always as
-simple as just wrapping in a Promise. I also _think_ I have a good mental model
-for all this, but I also often expose a blind spot or two when I build things
-like this!
+- Built-in Node async file writing
+- Using child process and threads to handle CPU tasks
+
+## What's the event loop?
+
+- Node's mechanism for asynchronous processing
+- [What the heck is the event loop anyway?](https://www.youtube.com/watch?v=8aGhZQkoFbQ)
+- [In the Loop](https://www.youtube.com/watch?v=cCOL7MC4Pl0)
 
 ## Tasks
 
