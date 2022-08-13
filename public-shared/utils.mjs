@@ -21,9 +21,10 @@ export function createRequester(url) {
   const button = document.createElement('button');
   const output = document.createElement('div');
   const input = document.createElement('input');
-  const wrapper = document.createElement('div');
+  const wrapper = document.createElement('form');
 
   button.textContent = url;
+  button.type = 'submit';
   input.placeholder = '1';
   output.textContent = 'Click to request';
   output.classList.add('output');
@@ -35,7 +36,8 @@ export function createRequester(url) {
 
   root.appendChild(wrapper);
 
-  button.onclick = () => {
+  wrapper.onsubmit = (e) => {
+    e.preventDefault();
     output.textContent = 'Fetching...';
     const start = Date.now();
     fetchAll(url, Number(input.value) || 1)
