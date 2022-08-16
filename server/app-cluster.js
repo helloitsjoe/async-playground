@@ -14,7 +14,7 @@ app.get('/ping', (req, res) => {
   res.status(200).json({ message: 'pong' });
 });
 
-app.get('/cluster', (req, res) => {
+app.get('/async-cluster', (req, res) => {
   const stopPerf = startPerf(req.url);
   let count = 0;
   for (let i = 0; i < 1_000_000_000; i++) {
