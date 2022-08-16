@@ -23,16 +23,19 @@ export function createRequester(url) {
 
   form.onsubmit = (e) => {
     e.preventDefault();
-    output.textContent = 'Fetching...';
+    output.textContent = 'Standby...';
+    button.disabled = true;
     const start = Date.now();
     fetchAll(url, Number(input.value) || 1)
       .then((res) => {
         console.log('res', res);
         const elapsed = Date.now() - start;
         output.textContent = `Elapsed: ${elapsed}`;
+        button.disabled = false;
       })
       .catch((err) => {
         output.textContent = `Error: ${err.message}`;
+        button.disabled = false;
       });
   };
 }
