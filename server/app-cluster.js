@@ -1,9 +1,7 @@
 const express = require('express');
-const http = require('http');
 const { startPerf } = require('./utils');
 
 const app = express();
-const server = http.createServer(app);
 
 app.use(express.static('public-cluster'));
 app.use(express.static('public-shared'));
@@ -24,6 +22,6 @@ app.get('/async-cluster', (req, res) => {
   res.status(200).json({ count });
 });
 
-server.listen(3000, () => {
+app.listen(3000, () => {
   console.log('Listening on http://localhost:3000');
 });
