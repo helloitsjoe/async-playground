@@ -1,6 +1,5 @@
 const express = require('express');
 const cluster = require('cluster');
-const path = require('path');
 const { cpus } = require('os');
 const { syncLoop, startPerf } = require('./utils');
 
