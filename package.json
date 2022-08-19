@@ -1,25 +1,25 @@
 {
-  "name": "async-playground",
+  "name": "lets-block-the-event-loop",
   "version": "1.0.0",
-  "description": "## Here's what we're doing",
+  "description": "Let's Block the Event Loop!",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server"
+    "dev": "nodemon server",
+    "start": "node server"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/helloitsjoe/async-playground.git"
+    "url": "git+https://github.com/helloitsjoe/lets-block-the-event-loop.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/helloitsjoe/async-playground/issues"
+    "url": "https://github.com/helloitsjoe/lets-block-the-event-loop/issues"
   },
-  "homepage": "https://github.com/helloitsjoe/async-playground#readme",
+  "homepage": "https://github.com/helloitsjoe/lets-block-the-event-loop#readme",
   "dependencies": {
-    "cors": "^2.8.5",
     "express": "^4.18.1"
   },
   "devDependencies": {
