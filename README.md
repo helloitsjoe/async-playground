@@ -1,4 +1,6 @@
-# [Let's Block the Event Loop!](TODO)
+# Let's Block the Event Loop!
+
+[Watch the YouTube video here!](https://youtu.be/OUWI-Euts64)
 
 ## Why?
 
