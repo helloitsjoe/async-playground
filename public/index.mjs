@@ -4,6 +4,6 @@ createRequester('/sync-write');
 createRequester('/async-write');
 createRequester('/sync-loop');
 createRequester('/promise-loop');
-createRequester('/forked');
-createRequester('/worker');
+createRequester('/async-fork');
+createRequester('/async-worker');
 createRequester('/ping');

@@ -11,7 +11,6 @@ const PORT = process.env.PORT || 3000;
 if (cluster.isMaster) {
   console.log(`Master process is ${process.pid}`);
   for (let i = 0; i < cpus().length; i++) {
-    console.log(`Forking process ${i}`);
     cluster.fork();
   }
   cluster.on('exit', (worker, code) => {
